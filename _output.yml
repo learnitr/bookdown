@@ -1,0 +1,29 @@
+bookdown::gitbook:
+  #dev: svglite
+  highlight: kate
+  css: style.css
+  info: yes
+  includes:
+    in_header: header.html
+    after_body: footer.html
+  split_by: section
+  config:
+    toolbar:
+      position: fixed
+    toc:
+      collapse: subsection
+      before: |
+        <li><a href="./">A Course Template</a></li>
+      after: |
+        <li><a href="https://learnitr.github.io/learnitrdoc/bookdown.html" target="blank">Published with bookdown & learnitdown</a></li>
+    edit: https://github.com/USERNAME/REPO/edit/main/%s
+    view: https://github.com/USERNAME/REPO/blob/main/%s
+    #download: ["pdf", "epub"]
+bookdown::pdf_book:
+  includes:
+    in_header: preamble.tex
+  latex_engine: xelatex
+  citation_package: natbib
+  keep_tex: yes
+bookdown::epub_book:
+  stylesheet: style.css

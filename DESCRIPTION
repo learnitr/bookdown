@@ -1,0 +1,11 @@
+Type: Book
+Package: placeholder
+Title: Course Template using 'learnitdown'
+Version: 0.1.0
+Depends:
+    learnitdown
+Imports:
+    bookdown,
+    sessioninfo
+Remotes:
+    learnitr/learnitdown

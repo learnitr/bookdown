@@ -1,0 +1,100 @@
+--- 
+title: "A Course Template"
+author: "John Doe"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+documentclass: book
+description: |
+  This is a template for a course material using bookdown and learnitdown.
+  The HTML output format for this example is bookdown::gitbook,
+  set in the _output.yml file.
+cover-image: "images/front-cover.png"
+bibliography: [book.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+github-repo: 'learnitr/bookdown'
+url: 'https://learnitr.github.io/bookdown/'
+---
+
+# About {.unnumbered}
+
+This is a _sample_ book written in **Markdown** with **[{learnitdown}](https://github.com/learnitr/learnitdown)** additions (see \@ref(learnitdown)).
+
+`r learnitdown::clean_ex_toc()`
+
+<!-- The following inline chunk displays a login diagnostic box. Uncomment it if you use this bookdown inside of a Wordpress site, see https://learnitr.github.io/learnitrdoc/wordpress.html.-->
+
+<!-- `r learnitdown::clean_ex_toc()` `r learnitdown::diagnose_login(lang = "en")` -->
+
+## Usage {.unnumbered}
+
+Each **bookdown** chapter is an .Rmd file, and each .Rmd file can contain one (and only one) chapter. A chapter *must* start with a first-level heading: `# A good chapter`, and can contain one (and only one) first-level heading.
+
+Use second-level and higher headings within chapters like: `## A short section` or `### An even shorter section`.
+
+The `index.Rmd` file is required, and is also your first book chapter. It will be the homepage when you render the book.
+
+## Render book {.unnumbered}
+
+You can render the HTML version of this example book without changing anything:
+
+1. Find the **Build** pane in the RStudio IDE, and
+
+1. Click on **Build Book**, then select your output format, or select "All formats" if you'd like to use multiple formats from the same book source files.
+
+Or build the book from the R console:
+
+```{r, eval=FALSE}
+bookdown::render_book()
+```
+
+To render this example to PDF as a `bookdown::pdf_book`, you'll need to install XeLaTeX. You are recommended to install TinyTeX (which includes XeLaTeX): <https://yihui.org/tinytex/>.
+
+## Preview book {.unnumbered}
+
+As you work, you may start a local server to live preview this HTML book. This preview will update as you edit the book when you save individual .Rmd files. You can start the server in a work session by using the RStudio add-in "Preview book", or from the R console:
+
+```{r eval=FALSE}
+bookdown::serve_book()
+```
+
+
+```{r include=FALSE}
+# automatically create a bib database for R packages
+knitr::write_bib(c(
+  .packages(), 'bookdown', 'knitr', 'rmarkdown'
+), 'packages.bib')
+```
+
+## Render with GitHub action {.unnumbered}
+
+You can include the `docs` directory in git, but each time you will change something in a page of the book, you will get to commit a whole bunch of other files corresponding to the book rendering. Our advice is to use a GitHub action to build your book and to place the `docs` directory in the `.gitignore` file. That way, you will only commit the source files and the rendered book will be available at the URL of your repository.
+
+To create the required GitHub action you enter the following code in R:
+
+```r
+usethis::use_github_action(url = "https://raw.githubusercontent.com/ropenscilabs/actions_sandbox/master/.github/workflows/deploy_bookdown.yml")
+```
+
+TODO: continue this (obviously, this file needs to be edited)!
+
+See here: https://orchid00.github.io/actions_sandbox/websites-using-pkgdown-bookdown-and-blogdown.html#deploy-bookdown
+
+There is also an action to deploy on Netlify here: https://github.com/EmilHvitfeldt/bookdown-github-actions-netlify/blob/master/.github/workflows/bookdown.yaml
+
+
+### GitHub configuration to display the book {.unnumbered}
+
+TODO...
+
+
+<details>
+
+<summary>System information</summary>
+
+```{r, class.source='hidden-code'}
+sessioninfo::session_info()
+```
+
+</details>
+

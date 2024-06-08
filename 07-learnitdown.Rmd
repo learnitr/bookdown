@@ -1,0 +1,181 @@
+# learnitdown additions {#learnitdown}
+
+The [{learnitdown}](https://github.com/learnitr/learnitdown) package is used in this bookdown to provide several useful additions for course material. It is part of the [LearnIt:R learning management system](https://github.com/learnitr). It official document is [here](https://learnitr.github.io/learnitrdoc/). Make sure to look at the original code in the .Rmd files to see how the {learnitdown} package is used.
+
+## Global variables
+
+The `setup.r` file defines a `learnitdown` list with global variables. These variables can be called directly in R chunks. For instance, the first course is "`r  learnitdown$courses_names[1]`" and it is associated with the {`r learnitdown$package`} R package (course name obtained with `learnitdown$courses_names[1]` and package with `learnitdown$package`).
+
+The `!` operator is also redefined to operate on character strings, while retaining its original behaviour ("not" operator) on other objects. It allows for a concise way of expressing a `glue::glue()` replacement in the string with the items in the `learnitdown` list, or any other variable, or even R code indicated between accolades `{}`. `r !"For instance, the first course short name is {courses[1]} for academic year {acad_year} that starts on Monday {W[1] + 1}."`
+
+Last sentence was entirely constructed from a string : `!"For instance, the first course short name is {courses[1]} for academic year {acad_year} that starts on Monday {W[1] + 1}."` Of course such code can also be used in R chunks.
+
+## Special blocks
+
+Special blocks are defined in this package, both for HTMLL and for LaTeX output, in order to emphasize important paragraphs.
+
+```{block, type='note'}
+This is a **note**.
+
+- item 1
+- item 2
+- item 3
+```
+
+```{block, type='info'}
+This is an **information**.
+```
+
+```{block, type='warning'}
+This is a **warning**.
+```
+
+```{block, type='error'}
+This block can be used in case of **error**.
+```
+
+```{block, type='win'}
+This is related to **Windows**.
+```
+
+```{block, type='mac'}
+This is related to **macOS**.
+```
+
+```{block, type='linux'}
+This is related to **Linux**.
+```
+
+
+## Inclusion of H5P, Shiny or learnr content
+
+The {learnitdown} package provided functions to easily include interactive exercises within the bookdown.
+
+### H5P exercises
+
+TODO: provide an alternate way to insert H5P exercises form, say H5P.org or H5P.com. Currently, the learnitdown's `h5p()` function only uses H5P exercises defined in a Wordpress site.
+
+### Shiny applications
+
+A shiny application directly inside the book using an iframe. The application is **not** started when the page is loaded, but the user has to click on an image which is a screenshot of the application. With a simple iframe, the Shiny application would be started immediately every time the page is loaded.
+
+Here is an example of an application hosted on shinyapps.io:
+
+<!-- example with default name... but not very explicit => redefine URL in RSConnect -->
+
+`r launch_shiny("https://phgrosjean.shinyapps.io/url-parameters/")`
+
+### Learnr tutorials
+
+Tutorials written with the {learnr} R package can also be included in the bookdown using a special {learnitdown} function `launch_learnr()`. It offers a way to run the learnr tutorial directly, or it provides code to run in an R session where the course-associalted R package is installed.
+
+`r launch_learnr("https://phgrosjean.shinyapps.io/learnr/", height = 600)`
+
+### Other material
+
+You can also embed other material. There is no specific {learnitdown} function for it.
+
+- A Gist on GitHub:
+
+<script src="https://gist.github.com/GuyliannEngels/e349f835d11ec3f585bd27c0daa47012.js"></script>
+
+- An R Markdown document:
+
+<script src="https://gist.github.com/GuyliannEngels/dea087d0bd2321a2ae896211bdc6b4b8.js"></script>
+
+- A youtube video (note that you also have a Video H5P widget where you can place questions directly within the video!):
+
+<iframe width="770" height="433" src="https://www.youtube.com/embed/yIVXjl4SwVo?rel=0" frameborder="0" allowfullscreen></iframe>
+
+- A Coggle mind map:
+
+<iframe width='780' height='500' src='https://embed.coggle.it/diagram/XmZC8uMesCWdXGt6/70b78931eae4a12991c10df0f7f2f49f498e58ad68cc66e3f82da43b57951f3e' frameborder='0' allowfullscreen></iframe>
+
+## GitHub Classroom assignments
+
+TODO: show how to include sections that start GitHub Classroom assignments or challenges...
+
+## Course-specific sections
+
+This feature supposes that students are logged in, thus that the bookdown is deployed within a Wordpress site that manage the login, see https://learnitr.github.io/learnitrdoc/wordpress.html. Parts of the bookdown can be hidden or shown depending on its course or its school.
+
+In this example, three HTML classes, `MySchool1`, `MySchool2` and `noinstitution` allow to define sections that are displayed for students of a given school, or for the general public.
+
+----
+
+::: {.MySchool1}
+
+> **This content is _MySchool1_-specific.**
+
+:::
+
+::: {.MySchool2}
+
+> **This content is _MySchool2_-specific.**
+
+:::
+
+::: {.noinstitution}
+
+This content is displayed when the document is loaded outside of Wordpress, or if the Wordpress user is not affiliated to one of the two schools (or is not logged in).
+
+It is also the default content on the web. So that one can provide viable alternatives to exercises outside of one school context in a transparent way (no need any more to indicate "for MySchool1 students, do this, for the others, do that").
+
+Distinction is made via the URL by detecting `?institution=MySchool1`, just in case you would like to test the page in a different context easily.
+
+:::
+
+----
+
+The same mechanism is also defined for the different courses, `IntroStat`, `RProg` or `nocourse` for people not affiliated with any of these courses. A given course could be forced with URL parameter `?icouse=IntroStat` for instance.
+
+::: {.IntroStat}
+
+> **This content is specific for the IntroStat course.**
+
+:::
+
+::: {.RProg}
+
+> **This content is specific for the R Programming course.**
+
+:::
+
+::: {.IntroStat .RProg}
+
+> **This content is specific for one or the other course.**
+
+:::
+
+::: {.nocourse}
+
+This content is displayed when the document is loaded outside of a course context.
+
+It is also the default course content on the web. So that one can provide viable alternatives to exercises outside of a course context in a transparent way.
+
+:::
+
+----
+
+Otherwise, for further details, one can use the `<details>...</details>`  HTML construct:
+
+<details>
+<summary>More details...</summary>
+This is a section that provides further explanations, but optional, or of minor importance. So, it is hidden when the page is loaded.
+
+There can be several paragraphs!
+
+----
+</details>
+
+And this is again normal text...
+
+## Exercises recap
+
+A recap of the exercises (H5P, Shiny, learnr, assignments and challenges) in a given section can be automatically constructed with the `learnitdown::ex_toc()` function. It is a good way to provide a quick overview of the exercises at the end of a given section.
+
+TODO: I got an error for now... need to correct it!
+
+`show_ex_toc()`
+
+Moreover, if you installed the complete LearnIt::R LRS plateform with the MongoDB database and the progress report (TODO: link to the page explaining how to do), you can also embed the progress report for this chapter here with `launch_report("07", height = 800)` where `07` is the chapter number.
