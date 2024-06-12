@@ -3,13 +3,14 @@ learnitdown <- list(
   baseurl = "https://learnitr.github.io/bookdown", # The base URL for the site
   imgbaseurl =
     "https://learnitr.github.io/bookdown/images", # The base URL for external (big) images (or a subdir of baseurl if not used)
-  shiny_imgdir = "images/shinyapps",   # The Shiny image directory (screenshots)
-  package = "mycoursepkg",             # Associated package for the exercises
-  institutions = c(                    # Known institutions
+  h5purl = "https://h5p.org/h5p/embed", # The H5P base URL without trailing /
+  shiny_imgdir = "images/shinyapps",    # The Shiny image directory (screenshots)
+  package = "mycoursepkg",              # Associated package for the exercises
+  institutions = c(                     # Known institutions
     "MySchool1",
     "MySchool2"
   ),
-  courses = c(                        # Identifiers for your courses
+  courses = c(                          # Identifiers for your courses
     "IntroStat",
     "RProg"
   ),
@@ -95,7 +96,7 @@ img <- function(..., caption = "") {
 }
 
 h5p <- function(id, toc = "", ...)
-  learnitdown::h5p(id, toc = toc, baseurl = learnitdown$baseurl,
+  learnitdown::h5p(id, toc = toc, baseurl = learnitdown$h5purl, idurl = "",
     toc.def = "H5P exercise {id}",
     h5p.img = "images/list-h5p.png",
     h5p.link = paste(learnitdown$baseurl, "h5p", sep = "/"), ...)
@@ -103,12 +104,14 @@ h5p <- function(id, toc = "", ...)
 launch_shiny <- function(url, toc = "", fun = paste(learnitdown$package, "run_app", sep = "::"),
   alt1 = "*Click to start the Shiny application*",
   #alt1 = "*Cliquez pour lancer l'application Shiny.*",
-  alt2 = "*Click to start or [run `{run.cmd}`]({run.url}{run.arg}) in RStudio.*", ...) #,
+  alt2 = "*Click to start or [run `{run.cmd}`]({run.url}{run.arg}) in RStudio.*",
+  app.img = "images/list-app.png",
+  ...) #,
   #alt2 = "*Cliquez pour lancer ou [exécutez dans RStudio]({run.url}{run.arg}){{target=\"_blank\"}} `{run.cmd}`.*", ...)
   learnitdown::launch_shiny(url = url, toc = toc, imgdir = learnitdown$shiny_imgdir,
     fun = fun, alt1 = alt1, alt2 = alt2, toc.def = "Shiny application {app}",
     run.url = paste(learnitdown$baseurl, "/", learnitdown$rstudio,  "?runrcode=", sep = ""),
-    app.img = "images/list-app.png",
+    app.img = app.img,
     app.link = paste(learnitdown$baseurl, "shiny_app", sep = "/"), ...)
 
 launch_report <- function(module, course = "IntroStat", toc = NULL, fun = NULL,
@@ -116,6 +119,7 @@ launch_report <- function(module, course = "IntroStat", toc = NULL, fun = NULL,
   #alt1 = "*Cliquez pour visualiser le rapport de progression.*",
   alt2 = "*Click to calculate your progress report for this module.*",
   #alt2 = "*Cliquez pour calculer votre rapport de progression pour ce module.*",
+  app.img = "images/list-app.png",
   height = 800, ...)
   learnitdown::launch_shiny(url =
       paste0("https://SERVER/sdd-progress-report?course=", course,
@@ -123,15 +127,14 @@ launch_report <- function(module, course = "IntroStat", toc = NULL, fun = NULL,
     toc = toc, imgdir = learnitdown$shiny_imgdir,
     fun = fun, alt1 = alt1, alt2 = alt2, toc.def = "Progress report {app}",
     run.url = paste(learnitdown$baseurl, "/", learnitdown$rstudio,  "?runrcode=", sep = ""),
-    app.img = "images/list-app.png",
+    app.img = app.img,
     app.link = paste(learnitdown$baseurl, "shiny_app", sep = "/"), height = height, ...)
 
-# Note: not used yet!
 launch_learnr <- function(url, toc = "", fun = paste(learnitdown$package, "run", sep = "::"), ...)
-  launch_shiny(url = url, toc = toc, fun = fun, ...)
+  launch_shiny(url = url, toc = toc, fun = fun, app.img = "images/list-tuto.png", ...)
 
 learnr <- function(id, title = NULL, toc = "", package = learnitdown$package,
-  text = "Work now on the tutarial exercises")
+  text = "Work now on the tutorial exercises")
   #text = "Effectuez maintenant les exercices du tutoriel")
   learnitdown::learnr(id = id, title = title, package = package, toc = toc,
     text = text, toc.def = "Tutorial {id}", #toc.def = "Tutoriel {id}",

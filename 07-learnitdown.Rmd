@@ -53,7 +53,9 @@ The {learnitdown} package provided functions to easily include interactive exerc
 
 ### H5P exercises
 
-TODO: provide an alternate way to insert H5P exercises form, say H5P.org or H5P.com. Currently, the learnitdown's `h5p()` function only uses H5P exercises defined in a Wordpress site.
+H5P exercises are easily included in the bookdown using the `h5p()` function from {learnitdown}. You can include exercices from [h5p.org](https://h5p.org) or [h5p.com](https://h5p.com), but also from a Wordpress site if you use one, see https://learnitr.github.io/learnitrdoc/wordpress.html. The argument is the **id** of the exercise and the URL is built from h5purl, and idurl variables in the `setup.r` file. Here is an example of an exercise hosted on h5p.org:
+
+`r h5p(886674, height = 300, toc = "Variables for a scatterplot")`
 
 ### Shiny applications
 
@@ -63,13 +65,13 @@ Here is an example of an application hosted on shinyapps.io:
 
 <!-- example with default name... but not very explicit => redefine URL in RSConnect -->
 
-`r launch_shiny("https://phgrosjean.shinyapps.io/url-parameters/")`
+`r launch_shiny("https://phgrosjean.shinyapps.io/url-parameters/", toc = "Histogram classes")`
 
 ### Learnr tutorials
 
 Tutorials written with the {learnr} R package can also be included in the bookdown using a special {learnitdown} function `launch_learnr()`. It offers a way to run the learnr tutorial directly, or it provides code to run in an R session where the course-associalted R package is installed.
 
-`r launch_learnr("https://phgrosjean.shinyapps.io/learnr/", height = 600)`
+`r learnr("A01La_base", title = "Bases of R programming", toc = "Programming in R - bases")`
 
 ### Other material
 
@@ -174,8 +176,6 @@ And this is again normal text...
 
 A recap of the exercises (H5P, Shiny, learnr, assignments and challenges) in a given section can be automatically constructed with the `learnitdown::ex_toc()` function. It is a good way to provide a quick overview of the exercises at the end of a given section.
 
-TODO: I got an error for now... need to correct it!
-
-`show_ex_toc()`
+`r show_ex_toc()`
 
 Moreover, if you installed the complete LearnIt::R LRS plateform with the MongoDB database and the progress report (TODO: link to the page explaining how to do), you can also embed the progress report for this chapter here with `launch_report("07", height = 800)` where `07` is the chapter number.
